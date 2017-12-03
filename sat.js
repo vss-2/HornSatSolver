@@ -30,7 +30,7 @@ function doSolve(clauses, assignment) {
   }
   return result
 }
-  //////////////////////////////////////////////////////////////////////////////////////aqui primeiro
+  
 function readFormula(fileName) {
   // To read the file, it is possible to use the 'fs' module. 
   // Use function readFileSync and not readFile. 
