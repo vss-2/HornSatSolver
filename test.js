@@ -21,8 +21,7 @@ function readClauses (text){
     
     strAux = text.substr(firstIndex)//return everything under p cnf #vars #clauses
     strAux = strAux.replace(/\r\n/g," ")
-    clausesAux = strAux.split("0")
-    
+    clausesAux = strAux.split(" 0")//split the clauses
     for(var i = 0; i<clausesAux.length;i++){
 
         clauseAux = clausesAux[i].split(" ")//here, a clause still have '' elements, these elements will be ignored below at *
@@ -48,10 +47,10 @@ function readClauses (text){
 
 
 
-filename = "hole4.cnf"
+filename = "hole1.cnf"
 filename = "workspace/ic/"+filename;
 var text = fs.readFileSync(filename,'utf8');
-//console.log(text)
+console.log(text)
 
 var clauses = readClauses(text)
 console.log("clauses =")

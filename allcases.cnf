@@ -18,7 +18,7 @@ c
 c The following are the clauses for this file:
 p cnf 5 5
 
-1 2 3 4 5 0
+1 2 3 4 5 20 0
 -1 -2     -3 -4 -5 0
 1 -2
 3 -4 5 0
