@@ -39,6 +39,27 @@ function readClauses (text){
     return clauses
 }
   
+function readVariables(clauses){
+    var max=0
+    for(var i=0;i<clauses.length;i++){
+        for(var j=0;j<clauses[i].length;j++){
+            if(Math.abs(clauses[i][j]>max)){
+                max = Math.abs(clauses[i][j])
+            }
+        }
+    }
+    
+    variables = []
+    for(var i =1; i<=max;i++)
+        variables.push(0)
+    return variables
+}
+function checkProblemSpecification(text, clauses, variables){//return true if problem specification is valid for the clauses and variables parameters
+    
+    
+    
+      return false
+}
 
 
 
@@ -46,14 +67,14 @@ function readClauses (text){
 
 
 
-
-filename = "hole1.cnf"
+filename = "allcases.cnf"
 filename = "workspace/ic/"+filename;
 var text = fs.readFileSync(filename,'utf8');
 console.log(text)
 
 var clauses = readClauses(text)
-console.log("clauses =")
+console.log("clauses = ")
 console.log(clauses)
-
-
+variables = readVariables(clauses)
+console.log("variables = ")
+console.log(variables)
