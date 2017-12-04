@@ -55,26 +55,59 @@ function readVariables(clauses){
     return variables
 }
 function checkProblemSpecification(text, clauses, variables){//return true if problem specification is valid for the clauses and variables parameters
+    var index = text.lastIndexOf('p cnf')//return the last index of 'p' in text (where 'p cnf #vars #clauses' are)
+    var str = ""
+    while(text[index]!='\n'){
+        str+=text.charAt(index)
+        index++
+    }
+    str = str.replace("\r\n","")
+    str = str.replace("p cnf ","")
+    var varsclaus = str.split(" ")
+    var qVars = Number(varsclaus[0])//quantity of variables
+    var qClaus = Number(varsclaus[1])//quantity of clauses
     
-    
-    
-      return false
+
+    if(qClaus==clauses.length && qVars==variables.length)
+        return true
+
+    return false
 }
 
+function readFormula(fileName) {
+    // To read the file, it is possible to use the 'fs' module. ok
+    // Use function readFileSync and not readFile. ok
+    // First read the lines of text of the file and only afterward use the auxiliary functions.  ok
+  
+  
+    let text = fs.readFileSync(filename,'utf8') //This is the array containing lines of text extracted from the file. 
+    let clauses = readClauses(text)//array containing arrays representing the clauses
+    let variables = readVariables(clauses)
+    
+    // In the following line, text is passed as an argument so that the function
+    // is able to extract the problem specification.
+  
+  
+    let specOk = checkProblemSpecification(text, clauses, variables)
+  
+    let result = { 'clauses': [], 'variables': [] }
+    if (specOk) {
+      result.clauses = clauses
+      result.variables = variables
+    }
+    return result
+  }
 
 
 
 
 
 
-filename = "allcases.cnf"
+filename = "hole1.cnf"
 filename = "workspace/ic/"+filename;
 var text = fs.readFileSync(filename,'utf8');
 console.log(text)
 
-var clauses = readClauses(text)
-console.log("clauses = ")
-console.log(clauses)
-variables = readVariables(clauses)
-console.log("variables = ")
-console.log(variables)
+var result =readFormula(filename)
+console.log(result.clauses)
+console.log(result.variables)
