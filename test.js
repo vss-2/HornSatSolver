@@ -98,7 +98,25 @@ function readFormula(fileName) {
     return result
   }
 
+  function nextAssignment(currentAssignment) {
+    var tam = currentAssignment.length
 
+
+    if(currentAssignment[0]==0){
+      currentAssignment[0]=1
+      return
+    }else{
+      var i = 0
+      while(currentAssignment[i]==1){
+        currentAssignment[i]=0
+        i++
+      }
+      //here, currentassigment[i]==0
+      if(i<=tam-1)
+        currentAssignment[i]=1
+      return
+    }
+  }
 
 
 
@@ -110,4 +128,9 @@ console.log(text)
 
 var result =readFormula(filename)
 console.log(result.clauses)
-console.log(result.variables)
+console.log(result.variables.length)
+var n = result.variables.length
+for(var i =1; i<=Math.pow(2,n);i++){
+    nextAssignment(result.variables)
+    console.log(result.variables)
+}
