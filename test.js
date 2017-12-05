@@ -117,20 +117,56 @@ function readFormula(fileName) {
       return
     }
   }
+  function doSolve(clauses, assignment) {
+    let isSat = false
+    var iter=1
+    var n = assignment.length
+    var currentVariable
+    var currentAtribution//will be the atribution of each variable in one clause
+    var clauseTrue
+    while ((!isSat) && iter<=Math.pow(2,n)) {
+        console.log(assignment)
+       clauseTrue=1//true to enter the loop, if continues true, maintain the loop
+      for(var k=0;k<clauses.length&&clauseTrue==1;k++){//for each clause
+       clauseTrue = false//will be true if one of the clause's variables is true
+       
+       for(var t=0;t<clauses[k].length&&clauseTrue==0;t++){//if clauseTrue, go to next clause by breaking this loop
+         currentVariable = clauses[k][t]
+ 
+         if(currentVariable>0)
+           currentAtribution = assignment[currentAtribution-1]
+         else
+           currentAtribution = (assignment[currentAtribution-1] +1)%2//negation of assignment
+ 
+         clauseTrue = clauseTrue || currentAtribution
+       }
+       
+       if(k==clauses.length-1 && clauseTrue==1){//this means that it reached the last clause and that clause is also True, hence isSat has to be true
+         isSat=True
+       }//as it reached the last clause, it will break the first for loop anyway
+ 
+      }
+ 
+      if(!isSat){
+        nextAssignment(assignment)
+        iter++
+      } 
+     }
+     let result = {'isSat': isSat, satisfyingAssignment: null}
+     if (isSat) {
+       result.satisfyingAssignment = assignment
+     }
+     return result
+   }
 
 
 
-
-filename = "hole1.cnf"
+filename = "simple1.cnf"
 filename = "workspace/ic/"+filename;
 var text = fs.readFileSync(filename,'utf8');
 console.log(text)
 
 var result =readFormula(filename)
-console.log(result.clauses)
-console.log(result.variables.length)
-var n = result.variables.length
-for(var i =1; i<=Math.pow(2,n);i++){
-    nextAssignment(result.variables)
-    console.log(result.variables)
-}
+var finalResult = doSolve(result.clauses,result.variables)
+console.log(finalResult.isSat)
+console.log(finalResult.satisfyingAssignment)
