@@ -125,7 +125,6 @@ function readFormula(fileName) {
     var currentAtribution//will be the atribution of each variable in one clause
     var clauseTrue
     while ((!isSat) && iter<=Math.pow(2,n)) {
-        console.log(assignment)
        clauseTrue=1//true to enter the loop, if continues true, maintain the loop
       for(var k=0;k<clauses.length&&clauseTrue==1;k++){//for each clause
        clauseTrue = false//will be true if one of the clause's variables is true
@@ -134,15 +133,16 @@ function readFormula(fileName) {
          currentVariable = clauses[k][t]
  
          if(currentVariable>0)
-           currentAtribution = assignment[currentAtribution-1]
+           currentAtribution = assignment[currentVariable-1]
          else
-           currentAtribution = (assignment[currentAtribution-1] +1)%2//negation of assignment
+           currentAtribution = (assignment[(-1)*(currentVariable)-1] +1)%2//negation of assignment
  
-         clauseTrue = clauseTrue || currentAtribution
+         if(currentAtribution)//if one of the atributions is 1,the clause is true
+            clauseTrue=1
        }
        
        if(k==clauses.length-1 && clauseTrue==1){//this means that it reached the last clause and that clause is also True, hence isSat has to be true
-         isSat=True
+         isSat=true
        }//as it reached the last clause, it will break the first for loop anyway
  
       }
@@ -161,7 +161,7 @@ function readFormula(fileName) {
 
 
 
-filename = "simple1.cnf"
+filename = "simple0.cnf"
 filename = "workspace/ic/"+filename;
 var text = fs.readFileSync(filename,'utf8');
 console.log(text)
