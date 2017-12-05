@@ -5,37 +5,20 @@
  * Written by Fernando Castor in November/2017. 
  */
 
+var fs = require("fs")//for file reading
 
-  var fs = require("fs")//for file reading
- 
- 
- exports.solve = function(fileName) {
-   let formula = propsat.readFormula(fileName)
-   let result = doSolve(formula.clauses, formula.variables)
-   return result // two fields: isSat and satisfyingAssignment
- }
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- /////////////////////////////////////////////////////////////////////STILL IMPLEMENTING//////////////////////////////////////////////////////////
- 
- 
- 
- ///////////////////////////////////////////////////////////////////////WORKING FUNCTIONS/////////////////////////////////////////////////////////////////////////
+
+module.exports.solve = function(fileName) {
+ let formula = readFormula(fileName)
+if(formula!=false){//means that specOk is true
+  let result = doSolve(formula.clauses, formula.variables)
+  return result // two fields: isSat and satisfyingAssignment
+}else{
+  console.log("\nTHE PROBLEM SPECIFICATION DOESN'T CHECK WITH THE PARAMETERS")
+  
+}
+
+}
    function doSolve(clauses, assignment) {
     let isSat = false
     var iter=1
@@ -118,8 +101,10 @@
    if (specOk) {
      result.clauses = clauses
      result.variables = variables
+     return result
+   }else{//in case specOk is false. Error handled in solve function
+     return false
    }
-   return result
  }
  
  
