@@ -1,4 +1,4 @@
-var fs = require("fs")
+let fs = require("fs")
 
    
    
@@ -7,9 +7,9 @@ const sat = require("./sat_modelo.js")
 
 filename = "simple0.cnf"
 filename = "workspace/ic/"+filename;
-var text = fs.readFileSync(filename,'utf8');
+let text = fs.readFileSync(filename,'utf8');
 console.log(text)
 
-var result = sat.solve(filename)
+let result = sat.solve(filename)
 console.log(result.isSat)
 console.log(result.satisfyingAssignment)

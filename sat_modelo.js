@@ -5,33 +5,36 @@
  * Written by Fernando Castor in November/2017. 
  */
 
-var fs = require("fs")//for file reading
+const fs = require("fs")//for file reading
 
 
 module.exports.solve = function(fileName) {
  let formula = readFormula(fileName)
-if(formula!=false){//means that specOk is true
+ if(formula==false){//means that specOk is false
+  return null
+}else{
   let result = doSolve(formula.clauses, formula.variables)
   return result // two fields: isSat and satisfyingAssignment
-}else{
-  console.log("\nTHE PROBLEM SPECIFICATION DOESN'T CHECK WITH THE PARAMETERS")
-  
+
 }
+  
+
 
 }
    function doSolve(clauses, assignment) {
-    let isSat = false
-    var iter=1
-    var n = assignment.length
-    var currentVariable
-    var currentAtribution//will be the atribution of each variable in one clause
-    var clauseTrue
+     let isSat = false
+     let iter=1
+     const n = assignment.length
+     let currentVariable
+     let currentAtribution//will be the atribution of each variable in one clause
+     let clauseTrue
+     const t1 = process.hrtime()//algoritm begins
     while ((!isSat) && iter<=Math.pow(2,n)) {
        clauseTrue=1//true to enter the loop, if continues true, maintain the loop
-      for(var k=0;k<clauses.length&&clauseTrue==1;k++){//for each clause
+      for(let k=0;k<clauses.length&&clauseTrue==1;k++){//for each clause
        clauseTrue = false//will be true if one of the clause's variables is true
        
-       for(var t=0;t<clauses[k].length&&clauseTrue==0;t++){//if clauseTrue, go to next clause by breaking this loop
+       for(let t=0;t<clauses[k].length&&clauseTrue==0;t++){//if clauseTrue, go to next clause by breaking this loop
          currentVariable = clauses[k][t]
   
          if(currentVariable>0)
@@ -54,6 +57,11 @@ if(formula!=false){//means that specOk is true
         iter++
       } 
      }
+     const t2 = process.hrtime()//algoritm ends
+     const  secs = t2[0] - t1[0]
+     const nanosecs = t2[1] - t1[1]
+     console.log((secs)+" secs and "+(nanosecs)+ " nanosecs")
+  
      let result = {'isSat': isSat, satisfyingAssignment: null}
      if (isSat) {
        result.satisfyingAssignment = assignment
@@ -62,14 +70,14 @@ if(formula!=false){//means that specOk is true
    }
   function nextAssignment(currentAssignment) {
     // Receives the current assignment and changes it to the next one
-        var tam = currentAssignment.length
+        const tam = currentAssignment.length
     
     
         if(currentAssignment[0]==0){
           currentAssignment[0]=1
           return
         }else{
-          var i = 0
+          let i = 0
           while(currentAssignment[i]==1){
             currentAssignment[i]=0
             i++
@@ -109,17 +117,17 @@ if(formula!=false){//means that specOk is true
  
  
  function checkProblemSpecification(text, clauses, variables){//return true if problem specification is valid for the clauses and variables parameters
-  var index = text.lastIndexOf('p cnf')//return the last index of 'p' in text (where 'p cnf #vars #clauses' are)
-  var str = ""
+  let index = text.lastIndexOf('p cnf')//return the last index of 'p' in text (where 'p cnf #vars #clauses' are)
+  let str = ""
   while(text[index]!='\n'){
       str+=text.charAt(index)
       index++
   }
   str = str.replace("\r\n","")
   str = str.replace("p cnf ","")
-  var varsclaus = str.split(" ")
-  var qVars = Number(varsclaus[0])//quantity of variables
-  var qClaus = Number(varsclaus[1])//quantity of clauses
+  let varsclaus = str.split(" ")
+  const qVars = Number(varsclaus[0])//quantity of variables
+  const qClaus = Number(varsclaus[1])//quantity of clauses
   
 
   if(qClaus==clauses.length && qVars==variables.length)
@@ -131,9 +139,9 @@ if(formula!=false){//means that specOk is true
 
 
  function readVariables(clauses){//return variables = [0,0,0,0,0.....0,0,0] with length equals to the maximum absolute value between all variables in the clauses
-  var max=0
-  for(var i=0;i<clauses.length;i++){
-      for(var j=0;j<clauses[i].length;j++){
+  let max=0
+  for(let i=0;i<clauses.length;i++){
+      for(let j=0;j<clauses[i].length;j++){
           if(Math.abs(clauses[i][j]>max)){
               max = Math.abs(clauses[i][j])
           }
@@ -141,7 +149,7 @@ if(formula!=false){//means that specOk is true
   }
   
   variables = []
-  for(var i =1; i<=max;i++)
+  for(let i =1; i<=max;i++)
       variables.push(0)
   return variables
 }
@@ -153,7 +161,7 @@ if(formula!=false){//means that specOk is true
 
  function firstClauseIndex(text){//return first index asociated with the clauses
   
-    var firstIndex = text.lastIndexOf("p cnf")
+    let firstIndex = text.lastIndexOf("p cnf")
     while(text.charAt(firstIndex)!="\n"){
       firstIndex+=1
     }
@@ -167,21 +175,21 @@ if(formula!=false){//means that specOk is true
 
 
   function readClauses (text){//return the array of clauses
-    var clauses=[]
-    var clausesAux=[]
-    var clause = []
-    var clauseAux=[]
-    var firstIndex = firstClauseIndex(text)
-    var strAux = ""
+    let clauses=[]
+    let clausesAux=[]
+    let clause = []
+    let clauseAux=[]
+    const firstIndex = firstClauseIndex(text)
+    let strAux = ""
     
     strAux = text.substr(firstIndex)//return everything under p cnf #vars #clauses
     strAux = strAux.replace(/\r\n/g," ")
     clausesAux = strAux.split(" 0")//split the clauses
-    for(var i = 0; i<clausesAux.length;i++){
+    for(let i = 0; i<clausesAux.length;i++){
 
         clauseAux = clausesAux[i].split(" ")//here, a clause still have '' elements, these elements will be ignored below at *
         clause = []
-        for(var j = 0; j<clauseAux.length;j++){
+        for(let j = 0; j<clauseAux.length;j++){
             if(clauseAux[j]!="")// *
                 clause.push(Number(clauseAux[j]))
         }
