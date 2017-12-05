@@ -1,8 +1,8 @@
 const fs = require("fs")
 const sat = require("./sat_modelo.js")
 
- filename = "simple1"//change filename here
- filename = "workspace/ic/"+filename+".cnf"
+filename = "simple1"//change filename here
+filename = "workspace/ic/"+filename+".cnf"
 //just to show the text in the .cnf file
 const text = fs.readFileSync(filename,'utf8');
 console.log(text)
@@ -18,5 +18,6 @@ if(result!=null){
     console.log(result.satisfyingAssignment)
   }
 
-}else
+}else{
   console.log("\nTHE PROBLEM SPECIFICATION DOESN'T CHECK WITH THE PARAMETERS")
+}
