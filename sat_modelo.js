@@ -48,7 +48,7 @@ function doSolve(clauses, assignment) {
       }//as it reached the last clause, it will break the first for loop anyway
   
     }
-  console.log("#cases testes = " + iter)
+  console.log("#cases tested = " + iter)
     if(!isSat){
       nextAssignment(assignment)
       iter++
@@ -118,16 +118,16 @@ function checkProblemSpecification(text, clauses, variables){//return true if pr
 
 function readVariables(clauses){//return variables = [0,0,0,0,0.....0,0,0] with length equals to the maximum absolute value between all variables in the clauses
   let max=0
+  variables = []
   for(let i=0;i<clauses.length;i++){
     for(let j=0;j<clauses[i].length;j++){
       if(Math.abs(clauses[i][j]>max)){
         max = Math.abs(clauses[i][j])
+        variables.push(0)
       }
     }
   }
-  variables = []
-  for(let i =1; i<=max;i++)
-    variables.push(0)
+  
   return variables
 }
 
