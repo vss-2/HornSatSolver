@@ -123,11 +123,11 @@ function readVariables(clauses){//return variables = [0,0,0,0,0.....0,0,0] with 
     for(let j=0;j<clauses[i].length;j++){
       if(Math.abs(clauses[i][j]>max)){
         max = Math.abs(clauses[i][j])
-        variables.push(0)
       }
     }
   }
-  
+  for(let i = 1;i<=max;i++)
+    variables.push(0)
   return variables
 }
 
