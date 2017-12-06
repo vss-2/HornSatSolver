@@ -25,8 +25,8 @@ function doSolve(clauses, assignment) {
   let currentVariable
   let currentAtribution//will be the atribution of each variable in one clause
   let clauseTrue
-  const t1 = new Date().getSeconds()//algoritm begins
-  while ((!isSat) && iter<=Math.pow(2,n)) {
+  const qCases = Math.pow(2,n)
+  while ((!isSat) && iter<=qCases) {
     clauseTrue=1//true to enter the loop, if continues true, maintain the loop
     for(let k=0;k<clauses.length&&clauseTrue==1;k++){//for each clause
       clauseTrue = false//will be true if one of the clause's variables is true
@@ -54,8 +54,6 @@ function doSolve(clauses, assignment) {
       iter++
       } 
   }
-  const t2 = new Date().getSeconds()//algoritm ends
-  dt(t1,t2)//will print time variation in seconds
   
   let result = {'isSat': isSat, satisfyingAssignment: null}
   if (isSat) {
@@ -164,10 +162,4 @@ function readClauses (text){//return the array of clauses
   }
   clauses.pop()//this removes an empty array that was at the end of the clauses array (for reasons yet unknown)
   return clauses
-}
-
-function dt(t1,t2){
-  let time = t2-t1
-  console.log("\nsolution time = ")
-  console.log(time)
 }
