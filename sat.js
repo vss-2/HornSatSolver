@@ -1,8 +1,8 @@
 const fs = require("fs")
 const sat = require("./sat_modelo.js")
 
-filename = "simple0.cnf"//change filename here
-//filename = "workspace/ic/"+filename//coment this if you can walk by prompt directories
+filename = "hole4.cnf"//change filename here
+filename = "workspace/ic/"+filename//coment this if you can walk by prompt directories
 
 /////////////////just to show the text in the .cnf file///////////
 const text = fs.readFileSync(filename,'utf8');

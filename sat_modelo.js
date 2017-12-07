@@ -48,7 +48,7 @@ function doSolve(clauses, assignment) {
       }//as it reached the last clause, it will break the first for loop anyway
   
     }
-  console.log("#cases tested = " + iter)
+  //console.log("#cases tested = " + iter)
     if(!isSat){
       nextAssignment(assignment)
       iter++
