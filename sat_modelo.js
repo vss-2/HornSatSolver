@@ -9,29 +9,29 @@ const fs = require("fs")//for file reading
 
 
 module.exports.solve = function(fileName) {
-  let formula = readFormula(fileName)
+  var formula = readFormula(fileName)
   if(formula==false){//means that specOk is false
     return null
   }else{
-    let result = doSolve(formula.clauses, formula.variables)
+    var result = doSolve(formula.clauses, formula.variables)
     return result // two fields: isSat and satisfyingAssignment
   }
 }
 
 function doSolve(clauses, assignment) {
-  let isSat = false
-  let iter=1
+  var isSat = false
+  var iter=1
   const n = assignment.length
-  let currentVariable
-  let currentAtribution//will be the atribution of each variable in one clause
-  let clauseTrue
+  var currentVariable
+  var currentAtribution//will be the atribution of each variable in one clause
+  var clauseTrue
   const qCases = Math.pow(2,n)
   while ((!isSat) && iter<=qCases) {
     clauseTrue=1//true to enter the loop, if continues true, maintain the loop
-    for(let k=0;k<clauses.length&&clauseTrue==1;k++){//for each clause
+    for(var k=0;k<clauses.length&&clauseTrue==1;k++){//for each clause
       clauseTrue = false//will be true if one of the clause's variables is true
        
-      for(let t=0;t<clauses[k].length&&clauseTrue==0;t++){//if clauseTrue, go to next clause by breaking this loop
+      for(var t=0;t<clauses[k].length&&clauseTrue==0;t++){//if clauseTrue, go to next clause by breaking this loop
         currentVariable = clauses[k][t]
   
         if(currentVariable>0)
@@ -55,7 +55,7 @@ function doSolve(clauses, assignment) {
       } 
   }
   
-  let result = {'isSat': isSat, satisfyingAssignment: null}
+  var result = {'isSat': isSat, satisfyingAssignment: null}
   if (isSat) {
     result.satisfyingAssignment = assignment
   }
@@ -70,7 +70,7 @@ function nextAssignment(currentAssignment) {
     currentAssignment[0]=1
     return
   }else{
-    let i = 0
+    var i = 0
     while(currentAssignment[i]==1){
       currentAssignment[i]=0
       i++
@@ -82,12 +82,12 @@ function nextAssignment(currentAssignment) {
 }
  
 function readFormula(fileName) {//return empty clauses and variables if specOk = false
-  let text = fs.readFileSync(filename,'utf8') //This is the array containing lines of text extracted from the file. 
-  let clauses = readClauses(text)//array containing arrays representing the clauses
-  let variables = readVariables(clauses)
-  let specOk = checkProblemSpecification(text, clauses, variables)
+  var text = fs.readFileSync(filename,'utf8') //This is the array containing lines of text extracted from the file. 
+  var clauses = readClauses(text)//array containing arrays representing the clauses
+  var variables = readVariables(clauses)
+  var specOk = checkProblemSpecification(text, clauses, variables)
  
-  let result = { 'clauses': [], 'variables': [] }
+  var result = { 'clauses': [], 'variables': [] }
   if (specOk) {
     result.clauses = clauses
     result.variables = variables
@@ -98,15 +98,15 @@ function readFormula(fileName) {//return empty clauses and variables if specOk =
 }
  
 function checkProblemSpecification(text, clauses, variables){//return true if problem specification is valid for the clauses and variables parameters
-  let index = text.lastIndexOf('p cnf')//return the last index of 'p' in text (where 'p cnf #vars #clauses' are)
-  let str = ""
+  var index = text.lastIndexOf('p cnf')//return the last index of 'p' in text (where 'p cnf #vars #clauses' are)
+  var str = ""
   while(text[index]!='\n'){
     str+=text.charAt(index)
     index++
   }
   str = str.replace("\r\n","")
   str = str.replace("p cnf ","")
-  let varsclaus = str.split(" ")
+  var varsclaus = str.split(" ")
   const qVars = Number(varsclaus[0])//quantity of variables
   const qClaus = Number(varsclaus[1])//quantity of clauses
   
@@ -117,22 +117,22 @@ function checkProblemSpecification(text, clauses, variables){//return true if pr
 }
 
 function readVariables(clauses){//return variables = [0,0,0,0,0.....0,0,0] with length equals to the maximum absolute value between all variables in the clauses
-  let max=0
+  var max=0
   variables = []
-  for(let i=0;i<clauses.length;i++){
-    for(let j=0;j<clauses[i].length;j++){
+  for(var i=0;i<clauses.length;i++){
+    for(var j=0;j<clauses[i].length;j++){
       if(Math.abs(clauses[i][j]>max)){
         max = Math.abs(clauses[i][j])
       }
     }
   }
-  for(let i = 1;i<=max;i++)
+  for(var i = 1;i<=max;i++)
     variables.push(0)
   return variables
 }
 
 function firstClauseIndex(text){//return first index asociated with the clauses  
-  let firstIndex = text.lastIndexOf("p cnf")
+  var firstIndex = text.lastIndexOf("p cnf")
   while(text.charAt(firstIndex)!="\n"){
     firstIndex+=1
   }
@@ -140,20 +140,20 @@ function firstClauseIndex(text){//return first index asociated with the clauses
 }
  
 function readClauses (text){//return the array of clauses
-  let clauses=[]
-  let clausesAux=[]
-  let clause = []
-  let clauseAux=[]
+  var clauses=[]
+  var clausesAux=[]
+  var clause = []
+  var clauseAux=[]
   const firstIndex = firstClauseIndex(text)
-  let strAux = ""
+  var strAux = ""
     
   strAux = text.substr(firstIndex)//return everything under p cnf #vars #clauses
   strAux = strAux.replace(/\r\n/g," ")
   clausesAux = strAux.split(" 0")//split the clauses
-  for(let i = 0; i<clausesAux.length;i++){
+  for(var i = 0; i<clausesAux.length;i++){
     clauseAux = clausesAux[i].split(" ")//here, a clause still have '' elements, these elements will be ignored below at *
     clause = []
-    for(let j = 0; j<clauseAux.length;j++){
+    for(var j = 0; j<clauseAux.length;j++){
       if(clauseAux[j]!="")// *
         clause.push(Number(clauseAux[j]))
     }
