@@ -5,10 +5,10 @@ filename = "hole5.cnf"//change filename here
 //filename = "workspace/ic/"+filename//coment this if you can walk by prompt directories
 
 /////////////////just to show the text in the .cnf file///////////
-const text = fs.readFileSync(filename,'utf8');
-console.log(text)
+//const text = fs.readFileSync(filename,'utf8');
+//console.log(text)
 ///////////////////////////////////////////////////////////////////
-console.log("Solving "+filename+"...")
+console.log("\n\n\nSolving "+filename+"...\n")
 
 console.time("TIME TO SOLVE")
 const result = sat.solve(filename)
