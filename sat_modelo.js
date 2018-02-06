@@ -24,14 +24,15 @@ function doSolve(clauses, assignment) {
   const n = assignment.length
   var currentVariable
   var currentAtribution//will be the atribution of each variable in one clause
-  var clauseTrue
+  var clauseTrue, k, t
   const qCases = Math.pow(2,n)
   while ((!isSat) && iter<=qCases) {
     clauseTrue=1//true to enter the loop, if continues true, maintain the loop
-    for(var k=0;k<clauses.length&&clauseTrue==1;k++){//for each clause
+    k=0
+    while(k<clauses.length&&clauseTrue==1){//for each clause
       clauseTrue = false//will be true if one of the clause's variables is true
-       
-      for(var t=0;t<clauses[k].length&&clauseTrue==0;t++){//if clauseTrue, go to next clause by breaking this loop
+      t=0   
+      while(t<clauses[k].length&&clauseTrue==0){//if clauseTrue, go to next clause by breaking this loop
         currentVariable = clauses[k][t]
   
         if(currentVariable>0)
@@ -41,12 +42,13 @@ function doSolve(clauses, assignment) {
   
         if(currentAtribution)//if one of the atributions is 1,the clause is true
            clauseTrue=1
+        t++
       }
        
       if(k==clauses.length-1 && clauseTrue==1){//this means that it reached the last clause and that clause is also True, hence isSat has to be true
         isSat=true
       }//as it reached the last clause, it will break the first for loop anyway
-  
+      k++
     }
   //console.log("#cases tested = " + iter)
     if(!isSat){
@@ -117,17 +119,24 @@ function checkProblemSpecification(text, clauses, variables){//return true if pr
 }
 
 function readVariables(clauses){//return variables = [0,0,0,0,0.....0,0,0] with length equals to the maximum absolute value between all variables in the clauses
-  var max=0
+  var max=0,i,j
   variables = []
-  for(var i=0;i<clauses.length;i++){
-    for(var j=0;j<clauses[i].length;j++){
+  i=0
+  while(i<clauses.length){
+    j=0
+    while(j<clauses[i].length){
       if(Math.abs(clauses[i][j]>max)){
         max = Math.abs(clauses[i][j])
       }
+      j++
     }
+    i++
   }
-  for(var i = 1;i<=max;i++)
+  i=1
+  while(i<=max){
     variables.push(0)
+    i++
+  }
   return variables
 }
 
@@ -146,19 +155,24 @@ function readClauses (text){//return the array of clauses
   var clauseAux=[]
   const firstIndex = firstClauseIndex(text)
   var strAux = ""
+  var i,j
     
   strAux = text.substr(firstIndex)//return everything under p cnf #vars #clauses
   strAux = strAux.replace(/\r\n/g," ")
   clausesAux = strAux.split(" 0")//split the clauses
-  for(var i = 0; i<clausesAux.length;i++){
+  i=0
+  while(i<clausesAux.length){
     clauseAux = clausesAux[i].split(" ")//here, a clause still have '' elements, these elements will be ignored below at *
     clause = []
-    for(var j = 0; j<clauseAux.length;j++){
+    j=0
+    while(j<clauseAux.length){
       if(clauseAux[j]!="")// *
         clause.push(Number(clauseAux[j]))
+    j++
     }
     if(clause!=[])
       clauses.push(clause)
+    i++
   }
   clauses.pop()//this removes an empty array that was at the end of the clauses array (for reasons yet unknown)
   return clauses
