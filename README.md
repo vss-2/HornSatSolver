@@ -1,5 +1,5 @@
 # ic
-projeto IC em javascript
+projeto IC em javascript (sat solver rudimentar)
 
 -Install Node.js;
 
