@@ -25,33 +25,34 @@ function doSolve(clauses, assignment) {
   var currentVariable
   var currentAtribution//will be the atribution of each variable in one clause
   var clauseTrue, k, t
-  const qCases = Math.pow(2,n)
-  while ((!isSat) && iter<=qCases) {
+  const qCases = 1<<n
+  while (!isSat && iter<=qCases) {
     clauseTrue=1//true to enter the loop, if continues true, maintain the loop
     k=0
-    while(k<clauses.length&&clauseTrue==1){//for each clause
+    while(k<clauses.length&& clauseTrue){//for each clause
       clauseTrue = false//will be true if one of the clause's variables is true
       t=0   
-      while(t<clauses[k].length&&clauseTrue==0){//if clauseTrue, go to next clause by breaking this loop
+      while(t<clauses[k].length && !clauseTrue){//if clauseTrue, go to next clause by breaking this loop
         currentVariable = clauses[k][t]
   
         if(currentVariable>0)
           currentAtribution = assignment[currentVariable-1]
         else
-          currentAtribution = (assignment[(-1)*(currentVariable)-1] +1)%2//negation of assignment
+          currentAtribution = !assignment[(-currentVariable)-1]//negation of assignment
   
         if(currentAtribution)//if one of the atributions is 1,the clause is true
            clauseTrue=1
         t++
       }
        
-      if(k==clauses.length-1 && clauseTrue==1){//this means that it reached the last clause and that clause is also True, hence isSat has to be true
+      if(k==clauses.length-1 && clauseTrue){//this means that it reached the last clause and that clause is also True, hence isSat has to be true
         isSat=true
       }//as it reached the last clause, it will break the first for loop anyway
       k++
     }
   //console.log("#cases tested = " + iter)
     if(!isSat){
+      //console.log(assignment)
       nextAssignment(assignment)
       iter++
       } 
@@ -67,20 +68,14 @@ function doSolve(clauses, assignment) {
 function nextAssignment(currentAssignment) {
     // Receives the current assignment and changes it to the next one
   const tam = currentAssignment.length
-        
-  if(currentAssignment[0]==0){
-    currentAssignment[0]=1
-    return
-  }else{
-    var i = 0
-    while(currentAssignment[i]==1){
-      currentAssignment[i]=0
-      i++
-    }//here, currentassigment[i]==0 or doesn´t exists
-
-    if(i<=tam-1)//if i>=tam , currentassignmet[i] shall not be created
+  var i=0
+  while(currentAssignment[i] && i<tam){
+    currentAssignment[i]=0
+    i++
+  }     
+    if(i<tam)//if i>=tam , currentassignmet[i] shall not be created
       currentAssignment[i]=1
-  }
+  
 }
  
 function readFormula(fileName) {//return empty clauses and variables if specOk = false

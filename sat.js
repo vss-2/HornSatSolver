@@ -1,13 +1,8 @@
 const fs = require("fs")
 const sat = require("./sat_modelo.js")
 
-filename = "hole5.cnf"//change filename here
-//filename = "workspace/ic/"+filename//coment this if you can walk by prompt directories
+filename = "hole4.cnf"//change filename here
 
-/////////////////just to show the text in the .cnf file///////////
-//const text = fs.readFileSync(filename,'utf8');
-//console.log(text)
-///////////////////////////////////////////////////////////////////
 console.log("\n\n\nSolving "+filename+"...\n")
 
 console.time("TIME TO SOLVE")
