@@ -1,5 +1,5 @@
 # ic
-projeto IC em javascript (sat solver rudimentar)
+Project for Introduction to Computation discipline at UFPE (rudimentar sat solver sing only horn clauses)
 
 -Install Node.js;
 
