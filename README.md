@@ -1,5 +1,5 @@
 # ic
-Project for Introduction to Computation discipline at UFPE (rudimentar sat solver sing only horn clauses)
+Project for Introduction to Computation discipline at UFPE (simple sat solver sing only horn clauses)
 
 -Install Node.js;
 
